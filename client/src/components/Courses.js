@@ -1,9 +1,10 @@
 import React from 'react';
-import CourseDetail from './CourseDetail';
+// import CourseDetail from './CourseDetail';
+
 
 const Courses = props => {
     const results = props.data;
-    console.log(results);
+
     const courses = results.map(course =>
         <a className="course--module course--link" href={`courses/${course.id}`} key={course.id}>
             <h2 className="course--label">Course</h2>

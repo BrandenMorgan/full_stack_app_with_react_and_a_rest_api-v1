@@ -10,25 +10,42 @@ const apiUrl = 'http://localhost:5000/api/courses';
 // Main container
 function App() {
   const [data, setData] = useState([]);
-  const [course, setCourse] = useState({});
+  // const [course, setCourse] = useState({});
+  // const [author, setAuthor] = useState({});
+  // const [materialsNeeded, setMaterialsNeeded] = useState('');
 
-  // const getCourseById = (id = 1) => {
-  //   const url = `http://localhost:5000/api/courses/${id}`
+  // const getCourseById = (id) => {
+  //   const url = `http://localhost:5000/api/courses/${id}`;
   //   fetch(url)
   //     .then(res => res.json())
-  //     .then(course => console.log(course))
+  //     .then(course => setCourse(course))
   // };
 
   useEffect(() => {
     fetch(apiUrl)
       .then(res => res.json())
-      .then(data => setData(data));
+      .then(data => setData(data))
   }, []);
-  useEffect(() => {
-    fetch(`http://localhost:5000/api/courses/3`)
-      .then(res => res.json())
-      .then(data => setCourse(data))
-  }, []);
+  // useEffect(() => {
+  //   fetch(`http://localhost:5000/api/courses/9`)
+  //     .then(res => res.json())
+  //     .then(data => setCourse(data))
+  // }, []);
+  // useEffect(() => {
+  //   fetch(`http://localhost:5000/api/courses/9`)
+  //     .then(res => res.json())
+  //     .then(data => setAuthor(data.User))
+  // }, []);
+
+  // useEffect(() => {
+  //   fetch(`http://localhost:5000/api/courses/9`)
+  //     .then(res => res.json())
+  //     .then(data => setMaterialsNeeded(data.materialsNeeded))
+  // }, []);
+  // console.log("from App: ", course);
+  // console.log("user from App: ", course.User);
+  // let materials = course.materialsNeeded.split(', ');
+  // console.log("Materials: ", materials);
 
   return (
     <BrowserRouter>
@@ -44,10 +61,10 @@ function App() {
             </nav>
           </div>
         </header>
-        {/* <Switch> */}
-        <Route path='/courses' render={() => <Courses data={data} />} />
-        <Route path='/courses/:id' render={() => <CourseDetail course={course} />} />
-        {/* <main>
+        <Switch>
+          <Route exact path='/courses' render={() => <Courses data={data} />} />
+          <Route path='/courses/:id' component={CourseDetail} />
+          {/* <main>
           <div class="wrap main--grid">
             <a class="course--module course--link" href="course-detail.html">
               <h2 class="course--label">Course</h2>
@@ -70,7 +87,7 @@ function App() {
             </a>
           </div>
         </main> */}
-        {/* </Switch> */}
+        </Switch>
       </div>
     </BrowserRouter>
   );
