@@ -1,28 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // import CourseDetail from './CourseDetail';
 
 
-const Courses = props => {
-    const results = props.data;
+const Courses = ({ context }) => {
 
-    const courses = results.map(course =>
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        context.data.api('/courses')
+            .then(res => res.json())
+            .then(data => setData(data))
+    }, [context.data]);
+
+    const courses = data.map(course =>
         <a className="course--module course--link" href={`courses/${course.id}`} key={course.id}>
             <h2 className="course--label">Course</h2>
             <h3 className="course--title">{course.title}</h3>
         </a>
     );
-    // const courses = results.map(course =>
-    //     <CourseDetail
-    //         href={`courses/${course.id}`}
-    //         key={course.id}
-    //         title={course.title}
-    //         description={course.description}
-    //         estimatedTime={course.estimatedTime}
-    //         materialsNeeded={course.materialsNeeded}
-    //         author={`${course.User.firstName} ${course.User.lastName}`}
-    //         id={course.id}
-    //     />
-    // );
+
     return (
         <main>
             <div className="wrap main--grid">
