@@ -8,8 +8,7 @@ const CourseDetail = ({ context }) => {
     const id = history.location.pathname.slice(9)
     const [course, setCourse] = useState({});
     const [author, setAuthor] = useState({});
-    const [materials, setMaterials] = useState([]);
-    let materialsNeeded;
+    const [materials, setMaterials] = useState();
 
     // if (course.materialsNeeded !== null) {
     //     materials = course.materialsNeeded.split(',');
@@ -36,7 +35,7 @@ const CourseDetail = ({ context }) => {
     useEffect(() => {
         context.data.api(`/courses/${id}`)
             .then(res => res.json())
-            .then(data => setMaterials(data.materialsNeeded.split(",")))
+            .then(data => setMaterials(data.materialsNeeded))
     }, [context.data, id])
 
     // console.log("Course data: ", course.materialsNeeded.split(","));
@@ -44,10 +43,10 @@ const CourseDetail = ({ context }) => {
     //     <li key={index}>{material}</li>
     // )
 
-    console.log(materials);
-    for (let material of materials) {
-        console.log(material);
-    }
+    // console.log(typeof materials);
+    // for (let material of materials) {
+    //     console.log(material);
+    // }
 
 
     // if (materials !== null || materials !== [null] || materials !== []) {
@@ -94,8 +93,14 @@ const CourseDetail = ({ context }) => {
     // } else {
     //     estimatedTime = <p>props.course.estimatedTime</p>;
     // }
+    let materialsNeeded;
+    if (typeof materials === 'string') {
+        console.log("Materials are a string.");
+        materialsNeeded = materials.split(",");
+    }
+    console.log("Materials needed array: ", materialsNeeded);
 
-
+    console.log("Estimated time: ", course.estimatedTime)
     return (
         // <nav>
         //     <ul className="header--signedin">
@@ -104,6 +109,14 @@ const CourseDetail = ({ context }) => {
         //     </ul>
         // </nav>
         <main>
+            <div className="actions--bar">
+                <div className="wrap">
+                    <a className="button" href="update-course.html">Update Course</a>
+                    <a className="button" href="#">Delete Course</a>
+                    <a className="button button-secondary" href="/courses">Return to List</a>
+                </div>
+            </div>
+
             <div className="wrap">
                 <h2>Course Detail</h2>
                 <form>
@@ -116,10 +129,19 @@ const CourseDetail = ({ context }) => {
                         </div>
                         <div>
                             <h3 className="course--detail--title">Estimated Time</h3>
-                            {course.estimatedTime}
+                            {
+                                (course.estimatedTime === null)
+                                    ? <p>No time estimate available</p>
+                                    : <p>{course.estimatedTime}</p>
+                            }
                             <h3 className="course--detail--title">Materials Needed</h3>
                             <ul className="course--detail--list">
-                                {materialsNeeded}
+                                {
+                                    (materials === null || materialsNeeded === undefined)
+                                        ? <p>No materials required for this course</p>
+                                        : (materialsNeeded.map((material, index) =>
+                                            <li key={index}>{material}</li>))
+                                }
                             </ul>
                         </div>
                     </div>

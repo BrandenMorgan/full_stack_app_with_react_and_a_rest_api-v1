@@ -1,32 +1,28 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Courses from './components/Courses';
+import Header from './components/Header';
+import UserSignIn from './components/UserSignIn';
 import './App.css';
 import './global.css';
+// import './reset.css';
 import CourseDetail from './components/CourseDetail';
 
 import withContext from './Context';
 
 const CoursesWithContext = withContext(Courses);
 const CourseDetailWithContext = withContext(CourseDetail);
+const UserSignInWithContext = withContext(UserSignIn);
+
 
 const App = () => (
   <BrowserRouter>
     <div className="App">
-      <header>
-        <div className="wrap header--flex">
-          <h1 className="header--logo"><a href="index.html">Courses</a></h1>
-          <nav>
-            <ul className="header--signedout">
-              <li><a href="sign-up.html">Sign Up</a></li>
-              <li><a href="sign-in.html">Sign In</a></li>
-            </ul>
-          </nav>
-        </div>
-      </header>
+      <Header />
       <Switch>
         <Route exact path='/courses' component={CoursesWithContext} />
         <Route path='/courses/:id' component={CourseDetailWithContext} />
+        <Route path='/signin' component={UserSignInWithContext} />
       </Switch>
     </div>
   </BrowserRouter>
