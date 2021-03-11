@@ -32,6 +32,7 @@ export default class UserSignIn extends Component {
                             <input
                                 id="emailAddress"
                                 name="emailAddress"
+                                type="email"
                                 value={emailAddress}
                                 onChange={this.change}
 

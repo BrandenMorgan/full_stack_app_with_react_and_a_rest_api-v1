@@ -1,6 +1,10 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 const Form = (props) => {
+    let history = useHistory();
+    const form = history.location.pathname.slice(1);
+
     const {
         cancel,
         errors,
@@ -21,8 +25,12 @@ const Form = (props) => {
 
     return (
         <div className="form--centered">
-            {/* Coniditionally render 'Sign in'/ 'Sign up' */}
-            <h2>Sign In</h2>
+            {
+                (form === 'signup')
+                    ? <h2>Sign Up</h2>
+                    : <h2>Sign In</h2>
+            }
+
             <ErrorsDisplay errors={errors} />
             <form onSubmit={handleSubmit}>
                 {elements()}
