@@ -81,17 +81,6 @@ export default class UserSignUp extends Component {
         const name = event.target.name;
         const value = event.target.value;
 
-
-        // if (name.includes(' ')) {
-        //     // console.log("Break up first and last name");
-        //     // console.log(name.indexOf(' '));
-        //     const fullNameSeperator = name.indexOf(' ');
-        //     const firstName = name.substr(0, fullNameSeperator);
-        //     const lastName = name.substr(fullNameSeperator + 1);
-        //     console.log("firstName: ", firstName);
-        //     console.log("lastName: ", lastName);
-        // }
-
         this.setState(() => {
             return {
                 [name]: value
@@ -99,45 +88,95 @@ export default class UserSignUp extends Component {
         });
     }
 
+    // validate() {
+    //     const {
+    //         password,
+    //         confirmPassword
+    //     } = this.state;
+
+    //     // let isValid = true;
+    //     let passwordError;
+    //     if (password !== '') {
+    //         if (password !== confirmPassword) {
+    //             // isValid = false;
+    //             passwordError = "Passwords don't match";
+
+    //         }
+    //     }
+
+    //     // this.setState({ errors: [...this.state.errors, passwordError] });
+    //     // return isValid;
+    //     return passwordError;
+
+    // }
+
     submit = () => {
         const { context } = this.props;
 
         const {
             name,
             emailAddress,
+            confirmPassword,
             password,
-            confirmPassword
         } = this.state;
 
-        // Define firstName, lastName
+        // Break up name into firstName, lastName to persist to db. 
         const fullNameSeperator = name.indexOf(' ');
-        const firstName = name.substr(0, fullNameSeperator);
-        const lastName = name.substr(fullNameSeperator + 1);
-        // console.log("firstName: ", firstName);
-        // console.log("lastName: ", lastName);
+        let firstName;
+        let lastName;
+        if (fullNameSeperator === -1 && name !== '') {
+            firstName = name;
+        }
+        else {
+            firstName = name.substr(0, fullNameSeperator);
+            lastName = name.substr(fullNameSeperator + 1);
+        }
+        console.log("firstName: ", firstName);
+        console.log("lastName: ", lastName);
 
-        // Define password comparison
-        console.log("password: ", password);
-        console.log("confirmPassword: ", confirmPassword);
 
         // New user payload
         const user = {
             firstName,
             lastName,
             emailAddress,
-            confirmPassword
+            password
         };
+
+        // Validate passwords client side. No 'Confirm password' field on the User model
+        let passwordMatchError;
+        if (password !== '') {
+            if (password !== confirmPassword) {
+                // isValid = false;
+                passwordMatchError = "Passwords don't match";
+
+            }
+        }
+
+        let passwordConfirmationMessage;
+        if (confirmPassword === '') {
+            passwordConfirmationMessage = 'Please retype your password';
+        }
+
+
 
         context.data.createUser(user)
             .then(errors => {
                 if (errors.length) {
-                    this.setState({ errors });
+                    this.setState({ errors: [...errors, passwordMatchError, passwordConfirmationMessage] });
                 } else {
-                    context.actions.signIn(emailAddress, confirmPassword)
-                        .then(() => {
-                            this.props.history.push('/authenticated');
-                        });
-                    console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
+                    if (!passwordMatchError) {
+                        context.actions.signIn(emailAddress, password)
+                            .then(() => {
+                                this.props.history.push('/authenticated');
+                            });
+                        console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
+                    }
+                    // context.actions.signIn(emailAddress, password)
+                    //     .then(() => {
+                    //         this.props.history.push('/authenticated');
+                    //     });
+                    // console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
 
                 }
             })
@@ -145,6 +184,28 @@ export default class UserSignUp extends Component {
                 console.log(err);
                 this.props.history.push('/error');
             });
+
+        // const passwordMatchError = this.validate();
+        // this.setState({ errors: [...this.state.errors, passwordMatchError] });
+
+
+        // context.data.createUser(user)
+        //     .then(errors => {
+        //         if (errors.length) {
+        //             this.setState({ errors });
+        //         } else {
+        //             context.actions.signIn(emailAddress, password)
+        //                 .then(() => {
+        //                     this.props.history.push('/authenticated');
+        //                 });
+        //             console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
+
+        //         }
+        //     })
+        //     .catch(err => { //Handle rejected promises
+        //         console.log(err);
+        //         this.props.history.push('/error');
+        //     });
     }
 
     cancel = () => {
