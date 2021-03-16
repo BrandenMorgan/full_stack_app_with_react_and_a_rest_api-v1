@@ -153,19 +153,18 @@ export default class UserSignUp extends Component {
             }
         }
 
-        let passwordConfirmationMessage;
-        if (confirmPassword === '') {
-            passwordConfirmationMessage = 'Please retype your password';
-        }
-
+        // let passwordConfirmationMessage;
+        // if (confirmPassword === '') {
+        //     passwordConfirmationMessage = 'Please retype your password';
+        // }
 
 
         context.data.createUser(user)
             .then(errors => {
                 if (errors.length) {
-                    this.setState({ errors: [...errors, passwordMatchError, passwordConfirmationMessage] });
+                    this.setState({ errors: [...errors, passwordMatchError] });
                 } else {
-                    if (!passwordMatchError) {
+                    if (!passwordMatchError && confirmPassword !== '') {
                         context.actions.signIn(emailAddress, password)
                             .then(() => {
                                 this.props.history.push('/authenticated');
@@ -184,6 +183,7 @@ export default class UserSignUp extends Component {
                 console.log(err);
                 this.props.history.push('/error');
             });
+
 
         // const passwordMatchError = this.validate();
         // this.setState({ errors: [...this.state.errors, passwordMatchError] });
