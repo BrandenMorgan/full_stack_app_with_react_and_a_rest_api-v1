@@ -24,21 +24,27 @@ const Form = (props) => {
     }
 
     return (
-        <div className="form--centered">
-            {
-                (form === 'signup')
-                    ? <h2>Sign Up</h2>
-                    : <h2>Sign In</h2>
-            }
-
+        <>
             <ErrorsDisplay errors={errors} />
             <form onSubmit={handleSubmit}>
-                {elements()}
-                <button className="button" type="submit">{submitButtonText}</button>
-                <button className="button button-secondary" onClick={handleCancel} >Cancel</button>
-            </form>
-        </div>
+                {
+                    (form !== 'create')
+                        ? <React.Fragment>
+                            {elements()}
+                            <button className="button" type="submit">{submitButtonText}</button>
+                            <button className="button button-secondary" onClick={handleCancel} >Cancel</button>
+                        </React.Fragment>
+                        : <React.Fragment>
+                            <div className="main--flex">
+                                {elements()}
+                            </div>
+                            <button className="button" type="submit">{submitButtonText}</button>
+                            <button className="button button-secondary" onClick={handleCancel} >Cancel</button>
 
+                        </React.Fragment>
+                }
+            </form>
+        </>
     );
 }
 
@@ -47,14 +53,12 @@ function ErrorsDisplay({ errors }) {
 
     if (errors.length) {
         errorsDisplay = (
-            <div>
-                {/* Look into validation error styling */}
-                <h2 className="validation--errors--label">Validation errors</h2>
-                <div className="validation-errors">
-                    <ul>
-                        {errors.map((error, i) => <li key={i}>{error}</li>)}
-                    </ul>
-                </div>
+            <div className="validation--errors">
+                <h3>Validation Errors</h3>
+                <ul>
+                    {errors.map((error, i) => <li key={i}>{error}</li>)}
+                </ul>
+
             </div>
         );
     }

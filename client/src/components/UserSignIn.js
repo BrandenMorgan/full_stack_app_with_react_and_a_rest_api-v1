@@ -19,39 +19,42 @@ export default class UserSignIn extends Component {
 
         return (
             <main>
-                <Form
-                    cancel={this.cancel}
-                    submit={this.submit}
-                    errors={errors}
-                    submitButtonText="Sign In"
-                    elements={() => (
-                        <React.Fragment>
-                            <label htmlFor="emailAddress">
-                                Email Address
+                <div className="form--centered">
+                    <h2>Sign In</h2>
+                    <Form
+                        cancel={this.cancel}
+                        submit={this.submit}
+                        errors={errors}
+                        submitButtonText="Sign In"
+                        elements={() => (
+                            <React.Fragment>
+                                <label htmlFor="emailAddress">
+                                    Email Address
                                 </label>
-                            <input
-                                id="emailAddress"
-                                name="emailAddress"
-                                type="email"
-                                value={emailAddress}
-                                onChange={this.change}
+                                <input
+                                    id="emailAddress"
+                                    name="emailAddress"
+                                    type="email"
+                                    value={emailAddress}
+                                    onChange={this.change}
 
-                            />
-                            <label htmlFor="password">
-                                Password
+                                />
+                                <label htmlFor="password">
+                                    Password
                                 </label>
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                value={password}
-                                onChange={this.change}
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    value={password}
+                                    onChange={this.change}
 
-                            />
-                        </React.Fragment>
-                    )}
-                />
-                <p>Don't have a user account? <Link to="/signup">Click here</Link> to sign up!</p>
+                                />
+                            </React.Fragment>
+                        )}
+                    />
+                    <p>Don't have a user account? <Link to="/signup">Click here</Link> to sign up!</p>
+                </div>
             </main>
         );
     }

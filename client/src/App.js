@@ -5,6 +5,7 @@ import CourseDetail from './components/CourseDetail';
 import Header from './components/Header';
 import UserSignIn from './components/UserSignIn';
 import UserSignUp from './components/UserSignUp';
+import CreateCourse from './components/CreateCourse';
 import './App.css';
 import './global.css';
 // import './reset.css';
@@ -15,16 +16,18 @@ const CoursesWithContext = withContext(Courses);
 const CourseDetailWithContext = withContext(CourseDetail);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignUpWithContext = withContext(UserSignUp);
+const CreateCourseWithContext = withContext(CreateCourse);
 
 const App = () => (
   <BrowserRouter>
-    <div className="App">
+    <div>
       <Header />
       <Switch>
         <Route exact path='/courses' component={CoursesWithContext} />
         <Route path='/courses/:id' component={CourseDetailWithContext} />
         <Route path='/signin' component={UserSignInWithContext} />
         <Route path='/signup' component={UserSignUpWithContext} />
+        <Route path='/create' component={CreateCourseWithContext} />
       </Switch>
     </div>
   </BrowserRouter>

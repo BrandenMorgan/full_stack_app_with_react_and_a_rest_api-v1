@@ -22,57 +22,60 @@ export default class UserSignUp extends Component {
 
         return (
             <main>
-                <Form
-                    cancel={this.cancel}
-                    submit={this.submit}
-                    errors={errors}
-                    submitButtonText="Sign Up"
-                    elements={() => (
-                        <React.Fragment>
-                            <label htmlFor="name">
-                                Name
-                            </label>
-                            <input
-                                id="name"
-                                name="name"
-                                type="text"
-                                value={name}
-                                onChange={this.change}
-                            />
-                            <label htmlFor="emailAddress">
-                                Email Address
+                <div className="form--centered">
+                    <h2>Sign Up</h2>
+                    <Form
+                        cancel={this.cancel}
+                        submit={this.submit}
+                        errors={errors}
+                        submitButtonText="Sign Up"
+                        elements={() => (
+                            <React.Fragment>
+                                <label htmlFor="name">
+                                    Name
                                 </label>
-                            <input
-                                id="emailAddress"
-                                name="emailAddress"
-                                type="email"
-                                value={emailAddress}
-                                onChange={this.change}
-                            />
-                            <label htmlFor="password">
-                                Password
+                                <input
+                                    id="name"
+                                    name="name"
+                                    type="text"
+                                    value={name}
+                                    onChange={this.change}
+                                />
+                                <label htmlFor="emailAddress">
+                                    Email Address
+                                    </label>
+                                <input
+                                    id="emailAddress"
+                                    name="emailAddress"
+                                    type="email"
+                                    value={emailAddress}
+                                    onChange={this.change}
+                                />
+                                <label htmlFor="password">
+                                    Password
+                                    </label>
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    value={password}
+                                    onChange={this.change}
+                                />
+                                <label htmlFor="confirmPassword">
+                                    Confirm Password
                                 </label>
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                value={password}
-                                onChange={this.change}
-                            />
-                            <label htmlFor="confirmPassword">
-                                Confirm Password
-                            </label>
-                            <input
-                                id="confirmPassword"
-                                name="confirmPassword"
-                                type="password"
-                                value={confirmPassword}
-                                onChange={this.change}
-                            />
-                        </React.Fragment>
-                    )}
-                />
-                <p>Already have a user account? <Link to="/signin">Click here</Link> to sign in!</p>
+                                <input
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    type="password"
+                                    value={confirmPassword}
+                                    onChange={this.change}
+                                />
+                            </React.Fragment>
+                        )}
+                    />
+                    <p>Already have a user account? <Link to="/signin">Click here</Link> to sign in!</p>
+                </div>
             </main>
         );
     }
@@ -118,6 +121,7 @@ export default class UserSignUp extends Component {
             emailAddress,
             confirmPassword,
             password,
+            errors
         } = this.state;
 
         // Break up name into firstName, lastName to persist to db. 
@@ -131,11 +135,26 @@ export default class UserSignUp extends Component {
             firstName = name.substr(0, fullNameSeperator);
             lastName = name.substr(fullNameSeperator + 1);
         }
-        console.log("firstName: ", firstName);
-        console.log("lastName: ", lastName);
+        // console.log("firstName: ", firstName);
+        // console.log("lastName: ", lastName);
 
 
-        // New user payload
+
+
+        // Validate passwords client side. No 'Confirm password' field on the User model
+        let passwordMatchError = "Passwords don't match";
+        // if (password !== '') {
+        //     if (password !== confirmPassword && confirmPassword !== '') {
+        //         passwordMatchError = "Passwords don't match";
+
+        //     }
+        // }
+
+
+        // let passwordConfirmationMessage;
+        // if (confirmPassword === '') {
+        //     passwordConfirmationMessage = 'Please retype your password';
+        // }
         const user = {
             firstName,
             lastName,
@@ -143,46 +162,64 @@ export default class UserSignUp extends Component {
             password
         };
 
-        // Validate passwords client side. No 'Confirm password' field on the User model
-        let passwordMatchError;
-        if (password !== '') {
-            if (password !== confirmPassword) {
-                // isValid = false;
-                passwordMatchError = "Passwords don't match";
-
-            }
-        }
-
-        // let passwordConfirmationMessage;
-        // if (confirmPassword === '') {
-        //     passwordConfirmationMessage = 'Please retype your password';
-        // }
-
-
-        context.data.createUser(user)
-            .then(errors => {
-                if (errors.length) {
-                    this.setState({ errors: [...errors, passwordMatchError] });
-                } else {
-                    if (!passwordMatchError && confirmPassword !== '') {
+        if (password === confirmPassword) {
+            context.data.createUser(user)
+                .then(errors => {
+                    if (errors.length) {
+                        this.setState({ errors: [...errors] });
+                    } else {
                         context.actions.signIn(emailAddress, password)
                             .then(() => {
                                 this.props.history.push('/authenticated');
                             });
                         console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
                     }
-                    // context.actions.signIn(emailAddress, password)
-                    //     .then(() => {
-                    //         this.props.history.push('/authenticated');
-                    //     });
-                    // console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
+                })
+                .catch(err => { //Handle rejected promises
+                    console.log(err);
+                    this.props.history.push('/error');
+                });
 
-                }
-            })
-            .catch(err => { //Handle rejected promises
-                console.log(err);
-                this.props.history.push('/error');
-            });
+        } else if (password !== confirmPassword) {
+            if (!this.state.errors.includes(passwordMatchError)) {
+                this.setState({ errors: [...errors, passwordMatchError] });
+            }
+        }
+
+        // if (!passwordMatchError && confirmPassword !== '') {
+        //     context.actions.signIn(emailAddress, password)
+        //         .then(() => {
+        //             this.props.history.push('/authenticated');
+        //         });
+        //     console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
+        // }
+        // if (password !== confirmPassword) {
+        //     this.setState({ errors: [...errors, passwordMatchError] });
+        // }
+        // context.data.createUser(user)
+        //     .then(errors => {
+        //         if (errors.length) {
+        //             this.setState({ errors: [...errors] });
+        //         } else {
+        //             if (!passwordMatchError && confirmPassword !== '') {
+        //                 context.actions.signIn(emailAddress, password)
+        //                     .then(() => {
+        //                         this.props.history.push('/authenticated');
+        //                     });
+        //                 console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
+        //             }
+        //             // context.actions.signIn(emailAddress, password)
+        //             //     .then(() => {
+        //             //         this.props.history.push('/authenticated');
+        //             //     });
+        //             // console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
+
+        //         }
+        //     })
+        //     .catch(err => { //Handle rejected promises
+        //         console.log(err);
+        //         this.props.history.push('/error');
+        //     });
 
 
         // const passwordMatchError = this.validate();

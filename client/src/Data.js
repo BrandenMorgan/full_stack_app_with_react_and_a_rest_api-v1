@@ -17,7 +17,7 @@ export default class Data {
 
         // Check if auth is required
         if (requiresAuth) {
-            const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
+            const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
             options.headers['Authorization'] = `Basic ${encodedCredentials}`;
         };
 
@@ -43,6 +43,21 @@ export default class Data {
 
     async createUser(user) {
         const response = await this.api('/users', 'POST', user);
+        if (response.status === 201) {
+            return [];
+        }
+        else if (response.status === 400) {
+            return response.json().then(data => {
+                return data.errors;
+            });
+        }
+        else {
+            throw new Error();
+        }
+    }
+
+    async createCourse(course) {
+        const response = await this.api('/courses', 'POST', course);
         if (response.status === 201) {
             return [];
         }
