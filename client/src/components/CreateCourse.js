@@ -4,7 +4,6 @@ import Form from './Form';
 export default class CreateCourse extends Component {
     state = {
         courseTitle: '',
-        courseAuthor: '',
         courseDescription: '',
         estimatedTime: '',
         materialsNeeded: '',
@@ -14,13 +13,15 @@ export default class CreateCourse extends Component {
     render() {
         const {
             courseTitle,
-            courseAuthor,
             courseDescription,
             estimatedTime,
             materialsNeeded,
             errors,
         } = this.state;
-        console.log(courseDescription);
+        const { context } = this.props;
+
+        const courseAuthor = `${context.authenticatedUser.firstName} ${context.authenticatedUser.lastName}`;
+        // console.log("Author to be autopopulated: ", courseAuthor);
 
 
 
@@ -118,22 +119,31 @@ export default class CreateCourse extends Component {
 
     submit = () => {
         const { context } = this.props;
+        const userEmail = context.authenticatedUser.emailAddress;
+        console.log("Authenticated user: ", context.authenticatedUser);
+        console.log("Authenticated User email: ", userEmail);
+
+
 
         const {
             courseTitle,
-            courseAuthor,
             courseDescription,
             estimatedTime,
             materialsNeeded,
         } = this.state;
 
+        let title = courseTitle;
+        // let id = courseAuthor;
+        let description = courseDescription;
+
         const course = {
-            courseTitle,
-            courseAuthor,
-            courseDescription,
+            // id,
+            title,
+            description,
             estimatedTime,
             materialsNeeded
         };
+        // console.log("id: ", id);
 
         context.data.createCourse(course)
             .then(errors => {
@@ -141,7 +151,7 @@ export default class CreateCourse extends Component {
                     this.setState({ errors });
                 } else {
                     this.props.history.push('/courses');
-                    console.log(`Course ${courseTitle} successfully created by ${courseAuthor}!`);
+                    console.log(`Course ${title} successfully created by author!`);
                 }
             })
             .catch(err => {

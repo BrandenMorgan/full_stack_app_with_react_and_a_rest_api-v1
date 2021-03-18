@@ -19,6 +19,7 @@ exports.authenticateUser = async (req, res, next) => {
 
     // If the user's credentials are available
     if (credentials) {
+        console.log("from api/middleware/auth-user: ", credentials)
         /*
             Attempt to retrieve the user from the data store by their
             email (i.e. the users "key" from the Authorization header)

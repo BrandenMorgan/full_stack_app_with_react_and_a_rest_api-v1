@@ -8,7 +8,6 @@ import UserSignUp from './components/UserSignUp';
 import CreateCourse from './components/CreateCourse';
 import './App.css';
 import './global.css';
-// import './reset.css';
 
 import withContext from './Context';
 
