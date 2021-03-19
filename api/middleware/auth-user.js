@@ -26,6 +26,7 @@ exports.authenticateUser = async (req, res, next) => {
         */
         const user = await User.findOne({ where: { emailAddress: credentials.name } });
         if (user) {
+            console.log("User id from api/middleware/auth-user: ", user.id);
             /*
                 If a user was successfully retrieved from the data store
                 use the bcryptjs npm package to compare the user's password

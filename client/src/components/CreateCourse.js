@@ -21,9 +21,6 @@ export default class CreateCourse extends Component {
         const { context } = this.props;
 
         const courseAuthor = `${context.authenticatedUser.firstName} ${context.authenticatedUser.lastName}`;
-        // console.log("Author to be autopopulated: ", courseAuthor);
-
-
 
         return (
             <main>
@@ -120,8 +117,12 @@ export default class CreateCourse extends Component {
     submit = () => {
         const { context } = this.props;
         const userEmail = context.authenticatedUser.emailAddress;
-        console.log("Authenticated user: ", context.authenticatedUser);
-        console.log("Authenticated User email: ", userEmail);
+        const password = context.authenticatedPassword;
+        const userId = context.authenticatedUser.id
+        // console.log("User id: ", context.authenticatedUser.id);
+        // console.log("Authenticated Password: ", password);
+        // console.log("Authenticated user: ", context.authenticatedUser);
+        // console.log("Authenticated User email: ", userEmail);
 
 
 
@@ -133,25 +134,25 @@ export default class CreateCourse extends Component {
         } = this.state;
 
         let title = courseTitle;
-        // let id = courseAuthor;
         let description = courseDescription;
 
         const course = {
-            // id,
             title,
             description,
             estimatedTime,
-            materialsNeeded
+            materialsNeeded,
+            userId
         };
-        // console.log("id: ", id);
+        const courseAuthor = `${context.authenticatedUser.firstName} ${context.authenticatedUser.lastName}`;
 
-        context.data.createCourse(course)
+
+        context.data.createCourse(course, userEmail, password)
             .then(errors => {
                 if (errors.length) {
                     this.setState({ errors });
                 } else {
                     this.props.history.push('/courses');
-                    console.log(`Course ${title} successfully created by author!`);
+                    console.log(`Course ${title} successfully created by ${courseAuthor}!`);
                 }
             })
             .catch(err => {

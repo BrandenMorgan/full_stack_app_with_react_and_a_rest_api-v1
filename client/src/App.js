@@ -5,28 +5,33 @@ import CourseDetail from './components/CourseDetail';
 import Header from './components/Header';
 import UserSignIn from './components/UserSignIn';
 import UserSignUp from './components/UserSignUp';
+import UserSignOut from './components/UserSignOut';
 import CreateCourse from './components/CreateCourse';
 import './App.css';
 import './global.css';
 
 import withContext from './Context';
+import PrivateRoute from './PrivateRoute';
 
 const CoursesWithContext = withContext(Courses);
 const CourseDetailWithContext = withContext(CourseDetail);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignUpWithContext = withContext(UserSignUp);
+const UserSignOutWithContext = withContext(UserSignOut);
 const CreateCourseWithContext = withContext(CreateCourse);
+const HeaderWithContext = withContext(Header);
 
 const App = () => (
   <BrowserRouter>
     <div>
-      <Header />
+      <HeaderWithContext />
       <Switch>
         <Route exact path='/courses' component={CoursesWithContext} />
         <Route path='/courses/:id' component={CourseDetailWithContext} />
         <Route path='/signin' component={UserSignInWithContext} />
         <Route path='/signup' component={UserSignUpWithContext} />
-        <Route path='/create' component={CreateCourseWithContext} />
+        <Route path='/signout' component={UserSignOutWithContext} />
+        <PrivateRoute path='/create' component={CreateCourseWithContext} />
       </Switch>
     </div>
   </BrowserRouter>

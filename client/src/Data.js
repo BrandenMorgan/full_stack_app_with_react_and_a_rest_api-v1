@@ -30,7 +30,6 @@ export default class Data {
             password
         });
 
-
         if (response.status === 200) {
             return response.json().then(data => data);
         }
@@ -57,12 +56,12 @@ export default class Data {
         }
     }
 
-    async createCourse(course) {
+    async createCourse(course, emailAddress, password) {
+        const response = await this.api('/courses', 'POST', course, true, {
+            emailAddress,
+            password
+        });
 
-        // const user = await this.getUser(emailAddress, password);
-        // console.log(user);
-
-        const response = await this.api('/courses', 'POST', course);
         if (response.status === 201) {
             return [];
         }
@@ -72,7 +71,6 @@ export default class Data {
             });
         }
         else {
-            console.log("from Data.js")
             throw new Error();
         }
     }
