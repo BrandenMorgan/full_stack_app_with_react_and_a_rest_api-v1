@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 const CourseDetail = ({ context }) => {
 
     let history = useHistory();
-    const id = history.location.pathname.slice(9)
+    const id = history.location.pathname.slice(9);
     const [course, setCourse] = useState({});
     const [author, setAuthor] = useState({});
     const [materials, setMaterials] = useState();

@@ -6,6 +6,7 @@ const Courses = ({ context }) => {
 
     const [data, setData] = useState([]);
 
+
     useEffect(() => {
         context.data.api('/courses')
             .then(res => res.json())
