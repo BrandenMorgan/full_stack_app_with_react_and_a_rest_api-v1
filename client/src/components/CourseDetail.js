@@ -10,110 +10,40 @@ const CourseDetail = ({ context }) => {
     const [author, setAuthor] = useState({});
     const [materials, setMaterials] = useState();
 
-    // if (course.materialsNeeded !== null) {
-    //     materials = course.materialsNeeded.split(',');
-    //     materialsNeeded = materials.map((material, index) =>
-    //         <li key={index}>{material}</li>
-    //     );
-    // } else {
-    //     materialsNeeded = <p>No materials are needed for this course</p>;
-    // }
-
 
     useEffect(() => {
         context.data.api(`/courses/${id}`)
             .then(res => res.json())
-            .then(data => setCourse(data))
+            .then(data => {
+                console.log("Data confirmation in course detail: ", data);
+                setCourse(data);
+                setAuthor(data.User);
+                setMaterials(data.materialsNeeded);
+            })
     }, [context.data, id]);
 
-    useEffect(() => {
-        context.data.api(`/courses/${id}`)
-            .then(res => res.json())
-            .then(data => setAuthor(data.User))
-    }, [context.data, id])
 
-    useEffect(() => {
-        context.data.api(`/courses/${id}`)
-            .then(res => res.json())
-            .then(data => setMaterials(data.materialsNeeded))
-    }, [context.data, id])
-
-    // console.log("Course data: ", course.materialsNeeded.split(","));
-    // materialsNeeded = materials.map((material, index) =>
-    //     <li key={index}>{material}</li>
-    // )
-
-    // console.log(typeof materials);
-    // for (let material of materials) {
-    //     console.log(material);
-    // }
-
-
-    // if (materials !== null || materials !== [null] || materials !== []) {
-    //     // let materialsResponse = materials.split(',');
-    //     // console.log(materialsResponse);
-    //     // console.log(typeof materials);
-    //     materialsNeeded = materials.map((material, index) =>
-    //         <li key={index}>{material}</li>
-    //     )
-    // } else {
-    //     materialsNeeded = <li>No materials are needed for this course</li>;
-    // }
-
-
-
-    /**
-     *     {
-                                    (course.materialsNeeded !== null)
-                                        ? materials = course.materialsNeeded.split(',')
-                                            (materialsNeeded = materials.map((material, index) =>
-                                                <li key={index}>{material}</li>
-                                            ))
-                                        : materialsNeeded = <p>No materials are needed for this course</p>
-                                }
-     */
-
-
-    // if (props.course.materialsNeeded !== null) {
-    //     materialsNeeded = props.course.materialsNeeded.split(',');
-    // } else {
-    //     materialsNeeded = <li>No materials needed for this course.</li>
-    // }
-    // console.log(materialsNeeded);
-    // if (props.course.materialsNeeded !== null) {
-    //     materialsNeeded = props.course.materialsNeeded.map(material =>
-    //         <li key={props.course.id}>{material}</li>
-    //     );
-    // } else {
-    //     materialsNeeded = <li>No materials needed for this course.</li>
-    // }
-    // let estimatedTime;
-    // if (props.course.estimatedTime === null) {
-    //     estimatedTime = <p>Time unavailable</p>;
-    // } else {
-    //     estimatedTime = <p>props.course.estimatedTime</p>;
-    // }
     let materialsNeeded;
     if (typeof materials === 'string') {
-        console.log("Materials are a string.");
         materialsNeeded = materials.split(",");
     }
-    console.log("Materials needed array: ", materialsNeeded);
 
-    console.log("Estimated time: ", course.estimatedTime)
+    const emailAddress = context.authenticatedUser.emailAddress;
+    const password = context.authenticatedPassword;
+    const handleDelete = (e) => {
+        e.preventDefault();
+        context.data.deleteCourse(id, emailAddress, password);
+        history.push('/');
+    }
+
     return (
-        // <nav>
-        //     <ul className="header--signedin">
-        //         <li>Welcome, Joe Smith!</li>
-        //         <li><a href="sign-out.html">Sign Out</a></li>
-        //     </ul>
-        // </nav>
+
         <main>
             <div className="actions--bar">
                 <div className="wrap">
-                    <a className="button" href="update-course.html">Update Course</a>
-                    <a className="button" href="#">Delete Course</a>
-                    <a className="button button-secondary" href="/courses">Return to List</a>
+                    <a className="button" href={`/courses/${id}/update`}>Update Course</a>
+                    <a className="button" href="/" onClick={handleDelete}>Delete Course</a>
+                    <a className="button button-secondary" href="/">Return to List</a>
                 </div>
             </div>
 

@@ -4,7 +4,8 @@ import Form from './Form';
 
 export default class UserSignUp extends Component {
     state = {
-        name: '',
+        firstName: '',
+        lastName: '',
         emailAddress: '',
         password: '',
         confirmPassword: '',
@@ -13,7 +14,8 @@ export default class UserSignUp extends Component {
 
     render() {
         const {
-            name,
+            firstName,
+            lastName,
             emailAddress,
             password,
             confirmPassword,
@@ -31,14 +33,24 @@ export default class UserSignUp extends Component {
                         submitButtonText="Sign Up"
                         elements={() => (
                             <React.Fragment>
-                                <label htmlFor="name">
-                                    Name
+                                <label htmlFor="firstName">
+                                    First Name
                                 </label>
                                 <input
-                                    id="name"
-                                    name="name"
+                                    id="firstName"
+                                    name="firstName"
                                     type="text"
-                                    value={name}
+                                    value={firstName}
+                                    onChange={this.change}
+                                />
+                                <label htmlFor="lastName">
+                                    Last Name
+                                </label>
+                                <input
+                                    id="lastName"
+                                    name="lastName"
+                                    type="text"
+                                    value={lastName}
                                     onChange={this.change}
                                 />
                                 <label htmlFor="emailAddress">
@@ -91,70 +103,21 @@ export default class UserSignUp extends Component {
         });
     }
 
-    // validate() {
-    //     const {
-    //         password,
-    //         confirmPassword
-    //     } = this.state;
-
-    //     // let isValid = true;
-    //     let passwordError;
-    //     if (password !== '') {
-    //         if (password !== confirmPassword) {
-    //             // isValid = false;
-    //             passwordError = "Passwords don't match";
-
-    //         }
-    //     }
-
-    //     // this.setState({ errors: [...this.state.errors, passwordError] });
-    //     // return isValid;
-    //     return passwordError;
-
-    // }
 
     submit = () => {
         const { context } = this.props;
 
         const {
-            name,
+            firstName,
+            lastName,
             emailAddress,
             confirmPassword,
             password,
             errors
         } = this.state;
 
-        // Break up name into firstName, lastName to persist to db. 
-        const fullNameSeperator = name.indexOf(' ');
-        let firstName;
-        let lastName;
-        if (fullNameSeperator === -1 && name !== '') {
-            firstName = name;
-        }
-        else {
-            firstName = name.substr(0, fullNameSeperator);
-            lastName = name.substr(fullNameSeperator + 1);
-        }
-        // console.log("firstName: ", firstName);
-        // console.log("lastName: ", lastName);
-
-
-
-
-        // Validate passwords client side. No 'Confirm password' field on the User model
         let passwordMatchError = "Passwords don't match";
-        // if (password !== '') {
-        //     if (password !== confirmPassword && confirmPassword !== '') {
-        //         passwordMatchError = "Passwords don't match";
 
-        //     }
-        // }
-
-
-        // let passwordConfirmationMessage;
-        // if (confirmPassword === '') {
-        //     passwordConfirmationMessage = 'Please retype your password';
-        // }
         const user = {
             firstName,
             lastName,
@@ -170,7 +133,7 @@ export default class UserSignUp extends Component {
                     } else {
                         context.actions.signIn(emailAddress, password)
                             .then(() => {
-                                this.props.history.push('/authenticated');
+                                this.props.history.push('/');
                             });
                         console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
                     }
@@ -185,67 +148,9 @@ export default class UserSignUp extends Component {
                 this.setState({ errors: [...errors, passwordMatchError] });
             }
         }
-
-        // if (!passwordMatchError && confirmPassword !== '') {
-        //     context.actions.signIn(emailAddress, password)
-        //         .then(() => {
-        //             this.props.history.push('/authenticated');
-        //         });
-        //     console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
-        // }
-        // if (password !== confirmPassword) {
-        //     this.setState({ errors: [...errors, passwordMatchError] });
-        // }
-        // context.data.createUser(user)
-        //     .then(errors => {
-        //         if (errors.length) {
-        //             this.setState({ errors: [...errors] });
-        //         } else {
-        //             if (!passwordMatchError && confirmPassword !== '') {
-        //                 context.actions.signIn(emailAddress, password)
-        //                     .then(() => {
-        //                         this.props.history.push('/authenticated');
-        //                     });
-        //                 console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
-        //             }
-        //             // context.actions.signIn(emailAddress, password)
-        //             //     .then(() => {
-        //             //         this.props.history.push('/authenticated');
-        //             //     });
-        //             // console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
-
-        //         }
-        //     })
-        //     .catch(err => { //Handle rejected promises
-        //         console.log(err);
-        //         this.props.history.push('/error');
-        //     });
-
-
-        // const passwordMatchError = this.validate();
-        // this.setState({ errors: [...this.state.errors, passwordMatchError] });
-
-
-        // context.data.createUser(user)
-        //     .then(errors => {
-        //         if (errors.length) {
-        //             this.setState({ errors });
-        //         } else {
-        //             context.actions.signIn(emailAddress, password)
-        //                 .then(() => {
-        //                     this.props.history.push('/authenticated');
-        //                 });
-        //             console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
-
-        //         }
-        //     })
-        //     .catch(err => { //Handle rejected promises
-        //         console.log(err);
-        //         this.props.history.push('/error');
-        //     });
     }
 
     cancel = () => {
-        this.props.history.push('/courses');
+        this.props.history.push('/');
     }
 }

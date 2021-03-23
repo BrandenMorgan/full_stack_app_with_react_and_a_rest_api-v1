@@ -95,7 +95,6 @@ router.get('/courses/:id', asyncHandler(async (req, res) => {
 router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
     try {
         const course = await Course.create(req.body);
-        console.log("Course data from api/routes.js: ", course);
         // Set location header
         res.location(`/courses/${course.id}`);
         // 201 new resource creation

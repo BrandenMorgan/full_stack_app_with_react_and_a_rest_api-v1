@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 const Form = (props) => {
     let history = useHistory();
-    const form = history.location.pathname.slice(1);
+    const form = history.location.pathname.slice(9);
 
     const {
         cancel,

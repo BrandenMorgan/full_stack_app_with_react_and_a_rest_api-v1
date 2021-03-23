@@ -9,10 +9,9 @@ export default class Header extends React.PureComponent {
             <header>
                 <div className="wrap header--flex">
                     <h1 className="header--logo">
-                        <Link to='/courses'>Courses</Link>
+                        <Link to='/'>Courses</Link>
                     </h1>
                     <nav>
-                        {/* Authenticated user logic */}
                         {
                             authUser ?
                                 <React.Fragment>

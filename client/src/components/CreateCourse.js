@@ -5,6 +5,7 @@ export default class CreateCourse extends Component {
     state = {
         courseTitle: '',
         courseDescription: '',
+        courseAuthor: '',
         estimatedTime: '',
         materialsNeeded: '',
         errors: [],
@@ -18,22 +19,17 @@ export default class CreateCourse extends Component {
             materialsNeeded,
             errors,
         } = this.state;
+        let courseAuthor = this.state.courseAuthor;
         const { context } = this.props;
 
-        const courseAuthor = `${context.authenticatedUser.firstName} ${context.authenticatedUser.lastName}`;
+        if (courseAuthor === '') {
+            courseAuthor = `${context.authenticatedUser.firstName} ${context.authenticatedUser.lastName}`;
+        }
 
         return (
             <main>
                 <div className="wrap">
                     <h2>Create Course</h2>
-                    {/* <div className="validation--errors">
-                        <h3>Validation Errors</h3>
-                        <ul>
-                            <li>Please provide a value for "Title"</li>
-                            <li>Please provide a value for "Description"</li>
-                        </ul>
-                    </div> */}
-
 
                     <Form
                         cancel={this.cancel}
@@ -119,12 +115,6 @@ export default class CreateCourse extends Component {
         const userEmail = context.authenticatedUser.emailAddress;
         const password = context.authenticatedPassword;
         const userId = context.authenticatedUser.id
-        // console.log("User id: ", context.authenticatedUser.id);
-        // console.log("Authenticated Password: ", password);
-        // console.log("Authenticated user: ", context.authenticatedUser);
-        // console.log("Authenticated User email: ", userEmail);
-
-
 
         const {
             courseTitle,
@@ -151,7 +141,7 @@ export default class CreateCourse extends Component {
                 if (errors.length) {
                     this.setState({ errors });
                 } else {
-                    this.props.history.push('/courses');
+                    this.props.history.push('/');
                     console.log(`Course ${title} successfully created by ${courseAuthor}!`);
                 }
             })
@@ -162,7 +152,7 @@ export default class CreateCourse extends Component {
     }
 
     cancel = () => {
-        this.props.history.push('/courses');
+        this.props.history.push('/');
     }
 }
 
