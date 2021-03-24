@@ -10,7 +10,6 @@ const CourseDetail = ({ context }) => {
     const [author, setAuthor] = useState({});
     const [materials, setMaterials] = useState();
 
-
     useEffect(() => {
         context.data.api(`/courses/${id}`)
             .then(res => res.json())
@@ -22,13 +21,19 @@ const CourseDetail = ({ context }) => {
             })
     }, [context.data, id]);
 
+    let authenticatedUser;
+    let emailAddress;
+    const courseOwner = author.id;
+    if (context.authenticatedUser) {
+        authenticatedUser = context.authenticatedUser.id;
+        emailAddress = context.authenticatedUser.emailAddress;
+    }
 
     let materialsNeeded;
     if (typeof materials === 'string') {
         materialsNeeded = materials.split(",");
     }
 
-    const emailAddress = context.authenticatedUser.emailAddress;
     const password = context.authenticatedPassword;
     const handleDelete = (e) => {
         e.preventDefault();
@@ -37,13 +42,29 @@ const CourseDetail = ({ context }) => {
     }
 
     return (
-
         <main>
             <div className="actions--bar">
                 <div className="wrap">
-                    <a className="button" href={`/courses/${id}/update`}>Update Course</a>
-                    <a className="button" href="/" onClick={handleDelete}>Delete Course</a>
-                    <a className="button button-secondary" href="/">Return to List</a>
+                    {
+                        (context.authenticatedUser && authenticatedUser === courseOwner)
+                            ?
+                            (
+                                <>
+                                    <a className="button" href={`/courses/${id}/update`}>Update Course</a>
+                                    <a className="button" href="/" onClick={handleDelete}>Delete Course</a>
+                                    <a className="button button-secondary" href="/">Return to List</a>
+                                </>
+                            )
+                            :
+                            (
+                                <>
+                                    <a className="button button-secondary" href="/">Return to List</a>
+                                </>
+                            )
+
+                    }
+
+
                 </div>
             </div>
 
@@ -60,14 +81,14 @@ const CourseDetail = ({ context }) => {
                         <div>
                             <h3 className="course--detail--title">Estimated Time</h3>
                             {
-                                (course.estimatedTime === null)
+                                (course.estimatedTime === null || course.estimatedTime === '')
                                     ? <p>No time estimate available</p>
                                     : <p>{course.estimatedTime}</p>
                             }
                             <h3 className="course--detail--title">Materials Needed</h3>
                             <ul className="course--detail--list">
                                 {
-                                    (materials === null || materialsNeeded === undefined)
+                                    (materials === null || materialsNeeded === undefined || materials === '')
                                         ? <p>No materials required for this course</p>
                                         : (materialsNeeded.map((material, index) =>
                                             <li key={index}>{material}</li>))

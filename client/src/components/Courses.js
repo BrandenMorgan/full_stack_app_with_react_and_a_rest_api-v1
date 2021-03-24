@@ -6,7 +6,6 @@ const Courses = ({ context }) => {
 
     const [data, setData] = useState([]);
 
-
     useEffect(() => {
         context.data.api('/courses')
             .then(res => res.json())
@@ -19,7 +18,7 @@ const Courses = ({ context }) => {
             <h3 className="course--title">{course.title}</h3>
         </a>
     );
-
+    // Ask about conditionally rendering the New Course button
     return (
         <main>
             {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Form from './Form';
 
 export default class CreateCourse extends Component {
+    // ask about author field
     state = {
         courseTitle: '',
         courseDescription: '',

@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
                 },
                 // Empty string value not allowed
                 notEmpty: {
-                    msg: 'Please provide a title'
+                    msg: 'Please provide a value for "Title"'
                 }
             }
         },
@@ -27,7 +27,7 @@ module.exports = (sequelize) => {
                     msg: 'Description is required'
                 },
                 notEmpty: {
-                    msg: 'Please provide a description'
+                    msg: 'Please provide a value for "Description"'
                 }
             }
         },

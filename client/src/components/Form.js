@@ -5,7 +5,9 @@ const Form = (props) => {
     let history = useHistory();
     const form = history.location.pathname.slice(9);
 
+
     const {
+        id,
         cancel,
         errors,
         submit,
@@ -28,7 +30,7 @@ const Form = (props) => {
             <ErrorsDisplay errors={errors} />
             <form onSubmit={handleSubmit}>
                 {
-                    (form !== 'create')
+                    (form !== 'create' && form !== `${id}/update`)
                         ? <React.Fragment>
                             {elements()}
                             <button className="button" type="submit">{submitButtonText}</button>
@@ -40,7 +42,6 @@ const Form = (props) => {
                             </div>
                             <button className="button" type="submit">{submitButtonText}</button>
                             <button className="button button-secondary" onClick={handleCancel} >Cancel</button>
-
                         </React.Fragment>
                 }
             </form>

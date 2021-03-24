@@ -11,6 +11,7 @@ export default class Data {
             },
         };
 
+
         if (body !== null) {
             options.body = JSON.stringify(body);
         }
@@ -75,7 +76,6 @@ export default class Data {
         }
     }
 
-    // current user must own course in order to update
     async updateCourse(emailAddress, password, id, course) {
         const response = await this.api(`/courses/${id}`, 'PUT', course, true, {
             emailAddress,
@@ -85,7 +85,7 @@ export default class Data {
         if (response.status === 204) {
             return [];
         }
-        else if (response.status === 403) {
+        else if (response.status === 400) {
             return response.json().then(data => {
                 return data.errors;
             });
@@ -95,7 +95,7 @@ export default class Data {
         }
 
     }
-    // current user must own the course in order to delete
+
     async deleteCourse(id, emailAddress, password) {
         const response = await this.api(`/courses/${id}`, 'DELETE', null, true, {
             emailAddress,
