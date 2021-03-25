@@ -8,11 +8,17 @@ import UserSignUp from './components/UserSignUp';
 import UserSignOut from './components/UserSignOut';
 import CreateCourse from './components/CreateCourse';
 import UpdateCourse from './components/UpdateCourse';
+import NotFound from './components/NotFound';
 import './App.css';
 import './global.css';
 
 import withContext from './Context';
 import PrivateRoute from './PrivateRoute';
+
+/*
+  Weird console warning
+  [Deprecation] SharedArrayBuffer will require cross-origin isolation as of M91, around May 2021. See https://developer.chrome.com/blog/enabling-shared-array-buffer/ for more details.
+*/
 
 const CoursesWithContext = withContext(Courses);
 const CourseDetailWithContext = withContext(CourseDetail);
@@ -36,6 +42,8 @@ const App = () => (
         <Route path='/signin' component={UserSignInWithContext} />
         <Route path='/signup' component={UserSignUpWithContext} />
         <Route path='/signout' component={UserSignOutWithContext} />
+        <Route path='/notfound' component={NotFound} />
+        <Route component={NotFound} />
       </Switch>
     </div>
   </BrowserRouter>
