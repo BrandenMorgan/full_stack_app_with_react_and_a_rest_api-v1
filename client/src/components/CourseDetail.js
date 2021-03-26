@@ -8,6 +8,8 @@ import { useHistory, Redirect } from 'react-router-dom';
 
 const CourseDetail = ({ context }) => {
 
+
+
     let history = useHistory();
     const id = history.location.pathname.slice(9);
     const [course, setCourse] = useState({});
@@ -25,10 +27,6 @@ const CourseDetail = ({ context }) => {
                     setAuthor(data.User);
                     setMaterials(data.materialsNeeded);
                 }
-                // console.log("Data confirmation in course detail: ", data);
-                // setCourse(data);
-                // setAuthor(data.User);
-                // setMaterials(data.materialsNeeded);
             })
         return () => mounted = false;
     }, [context.data, id]);
@@ -38,6 +36,7 @@ const CourseDetail = ({ context }) => {
     let authenticatedUser;
     let emailAddress;
 
+    console.log("course detail context: ", context);
     if (context.authenticatedUser) {
         authenticatedUser = context.authenticatedUser.id;
         emailAddress = context.authenticatedUser.emailAddress;
@@ -55,14 +54,8 @@ const CourseDetail = ({ context }) => {
         history.push('/');
     }
 
-    // if (course) {
-    //     console.log("Course confirmation", course);
-    // } else {
-    //     console.log("there is no course with the id of: ", id);
-    // }
 
     return (
-
 
         <main>
             {
@@ -133,12 +126,6 @@ const CourseDetail = ({ context }) => {
             }
 
         </main>
-
-
-
-
-
-
 
     );
 }

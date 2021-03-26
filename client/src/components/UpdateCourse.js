@@ -7,11 +7,9 @@ const UpdateCourse = ({ context }) => {
 
     let history = useHistory();
     const url = history.location.pathname.slice(9);
-    const id = url.replace(/\D/g, "");
+    const id = url.match(/([^/]+)/)[0];
 
     let [author, setAuthor] = useState('');
-    // let [firstName, setFirstName] = useState('');
-    // let [lastName, setLastName] = useState('');
     let [materialsNeeded, setMaterials] = useState('');
     let [title, setTitle] = useState('');
     let [description, setDescription] = useState('');
@@ -26,32 +24,18 @@ const UpdateCourse = ({ context }) => {
             .then(res => res.json())
             .then(data => {
                 if (mounted) {
-                    // console.log("Data confirmation: ", data);
+                    console.log("Data confirmation: ", data);
                     setCourse(data);
-                    setAuthor(`${data.User.firstName} ${data.User.lastName}`);
-                    // setAuthor(data.User);
-                    // setFirstName(data.User.firstName);
-                    // setLastName(data.User.lastName);
+                    setAuthor(data.User);
                     setMaterials(data.materialsNeeded);
                     setTitle(data.title);
                     setDescription(data.description);
                     setEstimatedtime(data.estimatedTime);
                 }
-                // console.log("Data confirmation: ", data);
-                // setCourse(data);
-                // setAuthor(`${data.User.firstName} ${data.User.lastName}`);
-                // // setAuthor(data.User);
-                // // setFirstName(data.User.firstName);
-                // // setLastName(data.User.lastName);
-                // setMaterials(data.materialsNeeded);
-                // setTitle(data.title);
-                // setDescription(data.description);
-                // setEstimatedtime(data.estimatedTime);
             })
         return () => mounted = false;
     }, [context.data, id]);
 
-    console.log(course.message);
 
     const change = (event) => {
         const value = event.target.value;
@@ -85,6 +69,8 @@ const UpdateCourse = ({ context }) => {
         materialsNeeded = "";
     }
 
+
+
     const cancel = () => {
         history.push('/');
     }
@@ -97,6 +83,7 @@ const UpdateCourse = ({ context }) => {
             estimatedTime,
             materialsNeeded,
         };
+
         const emailAddress = context.authenticatedUser.emailAddress;
         const password = context.authenticatedPassword;
 
@@ -150,7 +137,7 @@ const UpdateCourse = ({ context }) => {
                                                 id="courseAuthor"
                                                 name="courseAuthor"
                                                 type="text"
-                                                value={author}
+                                                value={`${author.firstName} ${author.lastName}`}
                                                 onChange={change}
                                             />
                                             <label htmlFor="courseDescription">
