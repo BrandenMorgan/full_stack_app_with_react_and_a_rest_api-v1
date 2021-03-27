@@ -8,8 +8,6 @@ import { useHistory, Redirect } from 'react-router-dom';
 
 const CourseDetail = ({ context }) => {
 
-
-
     let history = useHistory();
     const id = history.location.pathname.slice(9);
     const [course, setCourse] = useState({});
@@ -36,7 +34,7 @@ const CourseDetail = ({ context }) => {
     let authenticatedUser;
     let emailAddress;
 
-    console.log("course detail context: ", context);
+
     if (context.authenticatedUser) {
         authenticatedUser = context.authenticatedUser.id;
         emailAddress = context.authenticatedUser.emailAddress;
