@@ -138,7 +138,7 @@ export default class UserSignUp extends Component {
                         console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
                     }
                 })
-                .catch(err => { //Handle rejected promises
+                .catch(err => {
                     console.log(err);
                     this.props.history.push('/error');
                 });

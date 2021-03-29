@@ -5,11 +5,14 @@ import React, { useState, useEffect } from 'react';
 const Courses = ({ context }) => {
 
     const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         context.data.api('/courses')
             .then(res => res.json())
             .then(data => setData(data))
+            .catch(error => console.log('Error fetching and parsing data', error))
+            .finally(() => setIsLoading(false));
     }, [context.data]);
 
     const courses = data.map(course =>
@@ -25,20 +28,30 @@ const Courses = ({ context }) => {
                 context.authenticatedUser ?
                     <React.Fragment>
                         <div className="wrap main--grid">
-                            {courses}
-                            <a className="course--module course--add--module" href="courses/create">
-                                <span className="course--add--title">
-                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                        viewBox="0 0 13 13" className="add"><polygon points="7,6 7,0 6,0 6,6 0,6 0,7 6,7 6,13 7,13 7,7 13,7 13,6 "></polygon></svg>
-                                    New Course
-                                </span>
-                            </a>
+                            {
+                                isLoading
+                                    ? <h2>Loading...</h2>
+                                    : <React.Fragment>
+                                        {courses}
+                                        <a className="course--module course--add--module" href="courses/create">
+                                            <span className="course--add--title">
+                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                                    viewBox="0 0 13 13" className="add"><polygon points="7,6 7,0 6,0 6,6 0,6 0,7 6,7 6,13 7,13 7,7 13,7 13,6 "></polygon></svg>
+                                                New Course
+                                            </span>
+                                        </a>
+                                    </React.Fragment>
+                            }
                         </div>
                     </React.Fragment>
                     :
                     <React.Fragment>
                         <div className="wrap main--grid">
-                            {courses}
+                            {
+                                isLoading
+                                    ? <h2>Loading...</h2>
+                                    : <React.Fragment>{courses}</React.Fragment>
+                            }
                         </div>
                     </React.Fragment>
             }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { withRouter } from 'react-router';
-import { useHistory, Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 // Do description and materials needed need to be rendered as markdown automatically?
 // or does the user have all control of that?
@@ -13,6 +13,7 @@ const CourseDetail = ({ context }) => {
     const [course, setCourse] = useState({});
     const [author, setAuthor] = useState({});
     const [materials, setMaterials] = useState();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         let mounted = true;
@@ -20,20 +21,23 @@ const CourseDetail = ({ context }) => {
             .then(res => res.json())
             .then(data => {
                 if (mounted) {
+                    if (data.message === "Course not found") {
+                        history.push('/notfound')
+                    }
                     console.log("Data confirmation in course detail: ", data);
                     setCourse(data);
                     setAuthor(data.User);
                     setMaterials(data.materialsNeeded);
                 }
             })
+            .catch(error => console.log('Error fetching and parsing data, ', error))
+            .finally(() => setIsLoading(false));
         return () => mounted = false;
-    }, [context.data, id]);
-
+    }, [context.data, id, history]);
 
     const courseOwner = author.id;
     let authenticatedUser;
     let emailAddress;
-
 
     if (context.authenticatedUser) {
         authenticatedUser = context.authenticatedUser.id;
@@ -46,46 +50,48 @@ const CourseDetail = ({ context }) => {
     }
 
     const password = context.authenticatedPassword;
-    const handleDelete = (e) => {
-        e.preventDefault();
-        context.data.deleteCourse(id, emailAddress, password);
-        history.push('/');
+
+    const handleDelete = () => {
+        const confirmation = window.confirm(`Are you sure you want to delete the course "${course.title}"?`);
+        if (confirmation) {
+            context.data.deleteCourse(id, emailAddress, password);
+            history.push('/');
+        }
     }
 
 
     return (
-
         <main>
-            {
-                (!course.message)
-                    ?
-                    <>
-                        <div className="actions--bar">
-                            <div className="wrap">
-                                {
-                                    (context.authenticatedUser && authenticatedUser === courseOwner)
-                                        ?
-                                        (
-                                            <>
-                                                <a className="button" href={`/courses/${id}/update`}>Update Course</a>
-                                                <a className="button" href="/" onClick={handleDelete}>Delete Course</a>
-                                                <a className="button button-secondary" href="/">Return to List</a>
-                                            </>
-                                        )
-                                        :
-                                        (
-                                            <>
-                                                <a className="button button-secondary" href="/">Return to List</a>
-                                            </>
-                                        )
+            <div className="actions--bar">
+                <div className="wrap">
+                    {
+                        (context.authenticatedUser && authenticatedUser === courseOwner)
+                            ?
+                            (
+                                <>
+                                    <a className="button" href={`/courses/${id}/update`}>Update Course</a>
+                                    <a className="button" href="/" onClick={handleDelete}>Delete Course</a>
+                                    <a className="button button-secondary" href="/">Return to List</a>
+                                </>
+                            )
+                            :
+                            (
+                                <>
+                                    <a className="button button-secondary" href="/">Return to List</a>
+                                </>
+                            )
 
-                                }
+                    }
 
 
-                            </div>
-                        </div>
+                </div>
+            </div>
 
-                        <div className="wrap">
+            <div className="wrap">
+                {
+                    isLoading
+                        ? <h2>Loading...</h2>
+                        : <React.Fragment>
                             <h2>Course Detail</h2>
                             <form>
                                 <div className="main--flex">
@@ -114,15 +120,9 @@ const CourseDetail = ({ context }) => {
                                     </div>
                                 </div>
                             </form>
-                        </div>
-                    </>
-                    :
-                    <Redirect to={{
-                        pathname: '/notfound'
-                    }} />
-
-            }
-
+                        </React.Fragment>
+                }
+            </div>
         </main>
 
     );
