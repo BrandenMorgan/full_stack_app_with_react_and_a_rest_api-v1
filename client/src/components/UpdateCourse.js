@@ -19,14 +19,12 @@ const UpdateCourse = ({ context }) => {
     const [isLoading, setIsLoading] = useState(true);
 
 
-    // Try adding loading logic
     useEffect(() => {
         let mounted = true;
         context.data.api(`/courses/${id}`)
             .then(res => res.json())
             .then(data => {
                 if (mounted) {
-                    console.log("Data confirmation: ", data);
                     if (data.message === "Course not found") {
                         history.push('/notfound')
                     }

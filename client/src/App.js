@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Route,
+  Switch
+} from 'react-router-dom';
+
 import Courses from './components/Courses';
 import CourseDetail from './components/CourseDetail';
 import Header from './components/Header';
@@ -11,17 +16,12 @@ import UpdateCourse from './components/UpdateCourse';
 import NotFound from './components/NotFound';
 import Forbidden from './components/Forbidden';
 import UnhandledError from './components/UnhandledError';
-import './App.css';
 import './global.css';
 
 import withContext from './Context';
 import PrivateRoute from './PrivateRoute';
 
-/*
-  Weird console warning
-  [Deprecation] SharedArrayBuffer will require cross-origin isolation as of M91, around May 2021. See https://developer.chrome.com/blog/enabling-shared-array-buffer/ for more details.
-*/
-
+// Components given access to Context.js
 const CoursesWithContext = withContext(Courses);
 const CourseDetailWithContext = withContext(CourseDetail);
 const UserSignInWithContext = withContext(UserSignIn);
@@ -32,12 +32,13 @@ const HeaderWithContext = withContext(Header);
 const UpdateCourseWithContext = withContext(UpdateCourse);
 
 
-
+// Top level component
 const App = () => (
   <BrowserRouter>
     <div>
       <HeaderWithContext />
       <Switch>
+        {/* Routes */}
         <Route exact path='/' component={CoursesWithContext} />
         <PrivateRoute path='/courses/create' component={CreateCourseWithContext} />
         <PrivateRoute path='/courses/:id/update' component={UpdateCourseWithContext} />

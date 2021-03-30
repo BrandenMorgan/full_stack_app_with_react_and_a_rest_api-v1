@@ -5,7 +5,6 @@ const Form = (props) => {
     let history = useHistory();
     const form = history.location.pathname.slice(9);
 
-
     const {
         id,
         cancel,

@@ -3,13 +3,19 @@ import ReactMarkdown from 'react-markdown';
 import { withRouter } from 'react-router';
 import { useHistory } from 'react-router-dom';
 
-// Do description and materials needed need to be rendered as markdown automatically?
-// or does the user have all control of that?
-
+/**
+ * A function component that retrieves th detail for a course from the REST API
+ * and renders the course details, an "Update Course" button for navigating to 
+ * the "Update Course" screen, and a "Delete Course" button that when clicked sends 
+ * a DELETE request to the REST API to delete a course.
+ * @param {Object} context the data to be shared globally 
+ */
 const CourseDetail = ({ context }) => {
-
+    // Get access to the url
     let history = useHistory();
     const id = history.location.pathname.slice(9);
+
+    // State with react hooks
     const [course, setCourse] = useState({});
     const [author, setAuthor] = useState({});
     const [materials, setMaterials] = useState();
@@ -24,7 +30,6 @@ const CourseDetail = ({ context }) => {
                     if (data.message === "Course not found") {
                         history.push('/notfound')
                     }
-                    console.log("Data confirmation in course detail: ", data);
                     setCourse(data);
                     setAuthor(data.User);
                     setMaterials(data.materialsNeeded);
@@ -51,6 +56,9 @@ const CourseDetail = ({ context }) => {
 
     const password = context.authenticatedPassword;
 
+    /**
+     * Function to delete the current course 
+     */
     const handleDelete = () => {
         const confirmation = window.confirm(`Are you sure you want to delete the course "${course.title}"?`);
         if (confirmation) {

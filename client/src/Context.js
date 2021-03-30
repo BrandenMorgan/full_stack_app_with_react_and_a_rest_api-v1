@@ -5,6 +5,9 @@ import Data from './Data';
 const Context = React.createContext();
 
 export class Provider extends Component {
+    /**
+     * Provider class component that gives the application access globally to data
+     */
     state = {
         authenticatedUser: Cookies.getJSON('authenticatedUser') || null,
         authenticatedPassword: Cookies.getJSON('authenticatedPassword') || null,
@@ -21,6 +24,7 @@ export class Provider extends Component {
             authenticatedPassword,
         } = this.state;
 
+        // Object passed to Context.Provider component
         const value = {
             authenticatedUser,
             authenticatedPassword,
@@ -31,13 +35,19 @@ export class Provider extends Component {
             }
         };
 
+        // Make all data/methods available globally
         return (
             <Context.Provider value={value}>
                 {this.props.children}
             </Context.Provider>
         );
     }
-
+    /**
+     * Function to sign in existing user
+     * @param {string} emailAddress The users email address
+     * @param {string} password The users password
+     * @return {Object} The user object requested when a user signs in
+     */
     signIn = async (emailAddress, password) => {
         const user = await this.data.getUser(emailAddress, password);
         if (user !== null) {
@@ -54,6 +64,9 @@ export class Provider extends Component {
         return user;
     }
 
+    /**
+     * Function to sign out user and remove them from global state and cookies
+     */
     signOut = () => {
         this.setState({
             authenticatedUser: null,
