@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import Form from './Form';
 
 export default class UserSignIn extends Component {
+    /**
+     * Class component that renders a sign in form 
+     */
     state = {
         emailAddress: '',
         password: '',
@@ -60,6 +63,11 @@ export default class UserSignIn extends Component {
         );
     }
 
+    /**
+     * Function to change state depending on the users input
+     * @param {Object} event the event object
+     * @return a new state
+     */
     change = (event) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -72,10 +80,19 @@ export default class UserSignIn extends Component {
 
     }
 
+    /**
+     * A function that submits the form
+     */
     submit = () => {
         const { context } = this.props;
         const { from } = this.props.location.state || { from: { pathname: '/' } };
         const { emailAddress, password } = this.state;
+
+        /**
+         * Function to sign in an existing user
+         * @param {string} emailAddress a users email address
+         * @param {string} password a users password
+         */
         context.actions.signIn(emailAddress, password)
             .then(user => {
                 if (user === null) {
@@ -93,6 +110,9 @@ export default class UserSignIn extends Component {
             })
     }
 
+    /**
+     * Function to cancel sign in and redirect to the main route
+     */
     cancel = () => {
         this.props.history.push('/');
     }

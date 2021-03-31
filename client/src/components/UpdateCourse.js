@@ -3,12 +3,19 @@ import Form from './Form';
 import { withRouter } from 'react-router';
 import { useHistory } from 'react-router-dom';
 
+/**
+ * A function component that renders a form to updated an existing course.
+ * @param {object} context the data shared globally
+ */
 const UpdateCourse = ({ context }) => {
 
     let history = useHistory();
     const url = history.location.pathname.slice(9);
+
+    // Regex pattern to get all characters before the '/' after the course id
     const id = url.match(/([^/]+)/)[0];
 
+    // State with react hooks
     let [author, setAuthor] = useState('');
     let [materialsNeeded, setMaterials] = useState('');
     let [title, setTitle] = useState('');
@@ -45,7 +52,11 @@ const UpdateCourse = ({ context }) => {
         return () => mounted = false;
     }, [context.data, id, course.userId, context.authenticatedUser.id, history]);
 
-
+    /**
+     * Function to change state depending on the users input
+     * @param {Object} event the event object
+     * @return an updated state
+     */
     const change = (event) => {
         const value = event.target.value;
         const name = event.target.name;
@@ -78,10 +89,16 @@ const UpdateCourse = ({ context }) => {
         materialsNeeded = "";
     }
 
+    /**
+     * Fucntion to cancel and redirect to the main page.
+     */
     const cancel = () => {
         history.push('/');
     }
 
+    /**
+     * Function to submit the form.
+     */
     const submit = () => {
         const course = {
             title,
@@ -94,6 +111,13 @@ const UpdateCourse = ({ context }) => {
         const emailAddress = context.authenticatedUser.emailAddress;
         const password = context.authenticatedPassword;
 
+        /**
+         * Function to update an existing course in the database
+         * @param {string} emailAddress the email address of the authenticated user
+         * @param {string} password the password of the authenticated user
+         * @param {string} id the unique id of the course to update
+         * @param {Object} course the course data to update to
+         */
         context.data.updateCourse(emailAddress, password, id, course)
             .then(errors => {
                 if (errors.length) {

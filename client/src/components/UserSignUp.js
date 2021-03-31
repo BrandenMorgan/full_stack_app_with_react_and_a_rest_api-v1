@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import Form from './Form';
 
 export default class UserSignUp extends Component {
+    /**
+     * Class component to sign up a new user
+     */
     state = {
         firstName: '',
         lastName: '',
@@ -92,6 +95,11 @@ export default class UserSignUp extends Component {
         );
     }
 
+    /**
+     * Function to update current state depending on user input
+     * @param {Object} event the event object
+     * @return updated state
+     */
     change = (event) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -103,7 +111,9 @@ export default class UserSignUp extends Component {
         });
     }
 
-
+    /**
+     * Function to submit the form
+     */
     submit = () => {
         const { context } = this.props;
 
@@ -125,7 +135,13 @@ export default class UserSignUp extends Component {
             password
         };
 
+        // client side password confirmation before new user is persisted in database
         if (password === confirmPassword) {
+
+            /**
+             * Function to create a new user
+             * @param {Object} user the new user to create
+             */
             context.data.createUser(user)
                 .then(errors => {
                     if (errors.length) {
@@ -142,7 +158,7 @@ export default class UserSignUp extends Component {
                     console.log(err);
                     this.props.history.push('/error');
                 });
-
+            // Add an error to the errors array if its not already there 
         } else if (password !== confirmPassword) {
             if (!this.state.errors.includes(passwordMatchError)) {
                 this.setState({ errors: [...errors, passwordMatchError] });
@@ -150,6 +166,9 @@ export default class UserSignUp extends Component {
         }
     }
 
+    /**
+     * Function to cancel signing up and redirect to the main page
+     */
     cancel = () => {
         this.props.history.push('/');
     }

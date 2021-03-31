@@ -4,8 +4,10 @@ import React, { useState, useEffect } from 'react';
 // Ask Whether to use Link or href
 const Courses = ({ context }) => {
 
+    // State with react hooks
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+
 
     useEffect(() => {
         context.data.api('/courses')
@@ -21,9 +23,9 @@ const Courses = ({ context }) => {
             <h3 className="course--title">{course.title}</h3>
         </a>
     );
-    // Ask about conditionally rendering the New Course button
     return (
         <main>
+            {/* Only render new course button if a user is logged in */}
             {
                 context.authenticatedUser ?
                     <React.Fragment>

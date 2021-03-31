@@ -8,11 +8,14 @@ export class Provider extends Component {
     /**
      * Provider class component that gives the application access globally to data
      */
+
+    // Set cookies on the user and their password to use in the application
     state = {
         authenticatedUser: Cookies.getJSON('authenticatedUser') || null,
         authenticatedPassword: Cookies.getJSON('authenticatedPassword') || null,
     };
 
+    // Get access to Data.js
     constructor() {
         super();
         this.data = new Data();

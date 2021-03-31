@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom';
  * and renders the course details, an "Update Course" button for navigating to 
  * the "Update Course" screen, and a "Delete Course" button that when clicked sends 
  * a DELETE request to the REST API to delete a course.
- * @param {Object} context the data to be shared globally 
+ * @param {Object} context the data shared globally 
  */
 const CourseDetail = ({ context }) => {
     // Get access to the url
@@ -72,6 +72,10 @@ const CourseDetail = ({ context }) => {
         <main>
             <div className="actions--bar">
                 <div className="wrap">
+                    {/* 
+                            Render the delete and update course buttons only if the current 
+                            authenticated user owns the current course. Otherwise only render return to list button. 
+                        */}
                     {
                         (context.authenticatedUser && authenticatedUser === courseOwner)
                             ?

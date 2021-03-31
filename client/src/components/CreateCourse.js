@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import Form from './Form';
 
 export default class CreateCourse extends Component {
-    // ask about author field
+    /**
+     * Class component that renders a form to create a new course
+     */
     state = {
         courseTitle: '',
         courseDescription: '',
@@ -20,6 +22,7 @@ export default class CreateCourse extends Component {
             materialsNeeded,
             errors,
         } = this.state;
+
         let courseAuthor = this.state.courseAuthor;
         const { context } = this.props;
 
@@ -100,6 +103,11 @@ export default class CreateCourse extends Component {
         );
     }
 
+    /**
+     * Function to change state depending on the users input
+     * @param {Object} event the event object 
+     * @return new state
+     */
     change = (event) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -111,6 +119,9 @@ export default class CreateCourse extends Component {
         });
     };
 
+    /**
+     * Function to submit the form which creates a new course
+     */
     submit = () => {
         const { context } = this.props;
         const userEmail = context.authenticatedUser.emailAddress;
@@ -134,16 +145,19 @@ export default class CreateCourse extends Component {
             materialsNeeded,
             userId
         };
-        const courseAuthor = `${context.authenticatedUser.firstName} ${context.authenticatedUser.lastName}`;
 
-
+        /**
+         * Function to create a new course as an authenticated user.
+         * @param {object} course the course to create
+         * @param {string} userEmail the authenticated users email address
+         * @param {string} password the authenticated users password
+         */
         context.data.createCourse(course, userEmail, password)
             .then(errors => {
                 if (errors.length) {
                     this.setState({ errors });
                 } else {
                     this.props.history.push('/');
-                    console.log(`Course ${title} successfully created by ${courseAuthor}!`);
                 }
             })
             .catch(err => {
@@ -151,7 +165,9 @@ export default class CreateCourse extends Component {
                 this.props.history.push('/error');
             });
     }
-
+    /**
+     * Function to cancel making a new course and redirect to the main page
+     */
     cancel = () => {
         this.props.history.push('/');
     }

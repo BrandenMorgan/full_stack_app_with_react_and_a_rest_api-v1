@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * Function component to render when there is an unexpected error.
+ */
 const UnhandledError = () => {
     return (
         <main>

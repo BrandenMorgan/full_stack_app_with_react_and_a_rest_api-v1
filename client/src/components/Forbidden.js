@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * Function component to render if the requested course isn't owned by the authenticated user.
+ */
 const Forbidden = () => {
     return (
         <main>

@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-export default class Header extends React.PureComponent {
+export default class Header extends Component {
+    /**
+     * Class component that renders a header displaying some links depending if there
+     * is an authenticated user or not.
+     */
     render() {
         const { context } = this.props;
         const authUser = context.authenticatedUser;

@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * Function component to render when there is no route to match the url
+ */
 const NotFound = () => {
     return (
         <main>

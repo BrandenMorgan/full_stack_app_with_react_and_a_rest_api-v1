@@ -1,6 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
+/**
+ * Function component that renders a form
+ * @param {object} props the values passed to the form from higher level components
+ * @return signup, signin, create course or update course depending on the url
+ */
 const Form = (props) => {
     let history = useHistory();
     const form = history.location.pathname.slice(9);
@@ -14,11 +19,13 @@ const Form = (props) => {
         elements
     } = props;
 
+    // Function to handle submitting the form
     function handleSubmit(event) {
         event.preventDefault();
         submit();
     }
 
+    // Function to handle canelling the form
     function handleCancel(event) {
         event.preventDefault();
         cancel();
@@ -48,6 +55,11 @@ const Form = (props) => {
     );
 }
 
+/**
+ * Function to handle displaying validation errors above the form 
+ * @param {Array} errors an array of errors to render if they exist
+ * @return function component that displays errors
+ */
 function ErrorsDisplay({ errors }) {
     let errorsDisplay = null;
 
