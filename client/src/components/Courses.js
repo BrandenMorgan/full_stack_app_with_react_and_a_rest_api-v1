@@ -40,38 +40,24 @@ const Courses = ({ context }) => {
     );
     return (
         <main>
-            {/* Only render new course button if a user is logged in */}
-            {
-                context.authenticatedUser ?
-                    <React.Fragment>
-                        <div className="wrap main--grid">
-                            {
-                                isLoading
-                                    ? <h2>Loading...</h2>
-                                    : <React.Fragment>
-                                        {courses}
-                                        <a className="course--module course--add--module" href="courses/create">
-                                            <span className="course--add--title">
-                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                    viewBox="0 0 13 13" className="add"><polygon points="7,6 7,0 6,0 6,6 0,6 0,7 6,7 6,13 7,13 7,7 13,7 13,6 "></polygon></svg>
-                                                New Course
+            <React.Fragment>
+                <div className="wrap main--grid">
+                    {
+                        isLoading
+                            ? <h2>Loading...</h2>
+                            : <React.Fragment>
+                                {courses}
+                                <a className="course--module course--add--module" href="courses/create">
+                                    <span className="course--add--title">
+                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                            viewBox="0 0 13 13" className="add"><polygon points="7,6 7,0 6,0 6,6 0,6 0,7 6,7 6,13 7,13 7,7 13,7 13,6 "></polygon></svg>
+                                        New Course
                                             </span>
-                                        </a>
-                                    </React.Fragment>
-                            }
-                        </div>
-                    </React.Fragment>
-                    :
-                    <React.Fragment>
-                        <div className="wrap main--grid">
-                            {
-                                isLoading
-                                    ? <h2>Loading...</h2>
-                                    : <React.Fragment>{courses}</React.Fragment>
-                            }
-                        </div>
-                    </React.Fragment>
-            }
+                                </a>
+                            </React.Fragment>
+                    }
+                </div>
+            </React.Fragment>
         </main>
     );
 }
