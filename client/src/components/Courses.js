@@ -1,21 +1,32 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 
 // Ask Whether to use Link or href
 const Courses = ({ context }) => {
 
+    let history = useHistory();
     // State with react hooks
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
 
     useEffect(() => {
+        let mounted = true;
         context.data.api('/courses')
             .then(res => res.json())
-            .then(data => setData(data))
-            .catch(error => console.log('Error fetching and parsing data', error))
+            .then(data => {
+                if (mounted) {
+                    setData(data)
+                }
+            })
+            .catch(error => {
+                console.log('Error fetching and parsing data', error)
+                history.push('/error');
+            })
             .finally(() => setIsLoading(false));
-    }, [context.data]);
+        return () => mounted = false;
+    }, [context.data, history]);
 
     const courses = data.map(course =>
         <a className="course--module course--link" href={`courses/${course.id}`} key={course.id}>

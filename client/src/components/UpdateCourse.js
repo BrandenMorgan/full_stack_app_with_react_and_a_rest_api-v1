@@ -47,7 +47,10 @@ const UpdateCourse = ({ context }) => {
 
                 }
             })
-            .catch(error => console.log('Error fetching and parsing data', error))
+            .catch(error => {
+                console.log('Error fetching and parsing data', error)
+                history.push('/error');
+            })
             .finally(() => setIsLoading(false));
         return () => mounted = false;
     }, [context.data, id, course.userId, context.authenticatedUser.id, history]);

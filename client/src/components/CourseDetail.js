@@ -35,7 +35,10 @@ const CourseDetail = ({ context }) => {
                     setMaterials(data.materialsNeeded);
                 }
             })
-            .catch(error => console.log('Error fetching and parsing data, ', error))
+            .catch(error => {
+                console.log('Error fetching and parsing data, ', error)
+                history.push('/error');
+            })
             .finally(() => setIsLoading(false));
         return () => mounted = false;
     }, [context.data, id, history]);

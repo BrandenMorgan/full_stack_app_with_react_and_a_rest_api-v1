@@ -90,6 +90,7 @@ export default class Data {
             password
         });
 
+
         if (response.status === 201) {
             return [];
         }
