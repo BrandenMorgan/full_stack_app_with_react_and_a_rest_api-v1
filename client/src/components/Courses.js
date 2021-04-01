@@ -16,9 +16,13 @@ const Courses = ({ context }) => {
         context.data.api('/courses')
             .then(res => res.json())
             .then(data => {
+                if (data.message === '500') {
+                    history.push('/error')
+                }
                 if (mounted) {
                     setData(data)
                 }
+
             })
             .catch(error => {
                 console.log('Error fetching and parsing data', error)

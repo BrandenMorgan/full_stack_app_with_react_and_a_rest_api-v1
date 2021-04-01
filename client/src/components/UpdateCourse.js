@@ -96,7 +96,7 @@ const UpdateCourse = ({ context }) => {
      * Fucntion to cancel and redirect to the main page.
      */
     const cancel = () => {
-        history.push('/');
+        history.push(`/courses/${id}`);
     }
 
     /**

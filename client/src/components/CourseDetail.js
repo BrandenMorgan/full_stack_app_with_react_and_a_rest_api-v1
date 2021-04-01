@@ -30,6 +30,9 @@ const CourseDetail = ({ context }) => {
                     if (data.message === "Course not found") {
                         history.push('/notfound')
                     }
+                    if (data.User === undefined) {
+                        history.push('/error')
+                    }
                     setCourse(data);
                     setAuthor(data.User);
                     setMaterials(data.materialsNeeded);
