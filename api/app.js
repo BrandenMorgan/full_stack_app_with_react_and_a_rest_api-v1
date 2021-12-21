@@ -1,17 +1,18 @@
-'use strict';
+"use strict";
 
 //  Add a commit comment
 
 // load modules
-const cors = require('cors');
-const express = require('express');
-const morgan = require('morgan');
-const routes = require('./routes');
-// import instance of sequelize 
-const sequelize = require('./models/index').sequelize;
+const cors = require("cors");
+const express = require("express");
+const morgan = require("morgan");
+const routes = require("./routes");
+// import instance of sequelize
+const sequelize = require("./models/index").sequelize;
 
 // variable to enable global error logging
-const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
+const enableGlobalErrorLogging =
+  process.env.ENABLE_GLOBAL_ERROR_LOGGING === "true";
 
 // create the Express app
 const app = express();
@@ -23,15 +24,15 @@ app.use(cors());
 app.use(express.json());
 
 // setup morgan which gives us http request logging
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 // Configure every route to begin with '/api'
-app.use('/api', routes);
+app.use("/api", routes);
 
 // send 404 if no other route matched
 app.use((req, res) => {
   res.status(404).json({
-    message: 'Route Not Found',
+    message: "Route Not Found"
   });
 });
 
@@ -43,7 +44,7 @@ app.use((err, req, res, next) => {
 
   res.status(err.status || 500).json({
     message: err.message,
-    error: {},
+    error: {}
   });
 });
 
@@ -51,18 +52,17 @@ app.use((err, req, res, next) => {
   try {
     // Test the connection to the database
     await sequelize.authenticate();
-    console.log('Connection to the database successful!');
-
+    console.log("Connection to the database successful!");
 
     // Sync the models
     await sequelize.sync();
-    console.log('Synchronizing the models with the database...');
+    console.log("Synchronizing the models with the database...");
 
     // Catch any errors
   } catch (error) {
-    if (error.name === 'SequelizeValidationError') {
+    if (error.name === "SequelizeValidationError") {
       const errors = error.errors.map(err => err.message);
-      console.error('Validation errors: ', errors);
+      console.error("Validation errors: ", errors);
     } else {
       throw error;
     }
@@ -70,10 +70,10 @@ app.use((err, req, res, next) => {
 })();
 
 // set our port
-app.set('port', process.env.PORT || 5000);
+app.set("port", process.env.PORT || 5001);
 
 // start listening on our port
-const server = app.listen(app.get('port'), () => {
+const server = app.listen(app.get("port"), () => {
   console.log(`Express server is listening on port ${server.address().port}`);
 });
 
