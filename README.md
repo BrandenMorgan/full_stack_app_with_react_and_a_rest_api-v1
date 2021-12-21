@@ -36,45 +36,31 @@ When you first start the application you will be brought to the homepage.
 
 From here you can click on any of the existing courses to see a detailed view.
 
-```md
 ![Detail view](/screenshots/DetailView.png)
-```
 
 In order to create or modify data click the “Sign Up” button in the header of the top right corner of the page.
 
-```md
 ![Signup button](/screenshots/SignUp.png)
-```
 
 From here you can create a new user account.
 
-```md
 ![Signup form](/screenshots/NewUserSignUp.png)
-```
 
 The first time you create a new account you will be signed in immediately. Now that you are signed in you can create and modify your own content. screen shot by clicking the “New course” card at the bottom of the courses.
 
-```md
 ![Create course](/screenshots/CreateCourse.png)
-```
 
 You will be brought to an empty form to fill out.
 
-```md
 ![Empty form](/screenshots/EmptyForm.png)
-```
 
 After filling out the form click the “Create Course” button at the bottom of the screen.
 
-```md
 ![Filled out form](/screenshots/FilledOutFormForm.png)
-```
 
 You should see your new course listed at the bottom of the screen! To update or delete the post click one of the buttons that appear in the header.
 
-```md
 ![Edit or delete](/screenshots/EditOrDelete.png)
-```
 
 ## License
 
