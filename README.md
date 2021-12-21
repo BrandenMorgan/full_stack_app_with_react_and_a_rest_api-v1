@@ -32,9 +32,7 @@ npm start
 
 When you first start the application you will be brought to the homepage.
 
-```md
 ![User signup](/screenshots/CreateNewUser.png)
-```
 
 From here you can click on any of the existing courses to see a detailed view.
 
