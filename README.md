@@ -56,7 +56,7 @@ You will be brought to an empty form to fill out.
 
 After filling out the form click the “Create Course” button at the bottom of the screen.
 
-![Filled out form](/screenshots/FilledOutFormForm.png)
+![Filled out form](/screenshots/FilledOutForm.png)
 
 You should see your new course listed at the bottom of the screen! To update or delete the post click one of the buttons that appear in the header.
 
