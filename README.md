@@ -2,6 +2,8 @@
 
 ## Description
 
+Test git commit
+
 I built this project to demonstrate and exercise my fullstack skills implementing basic CRUD (Create, Read, Update, Delete) functionality.
 
 This is a hypothetical organization tool that allows you to create, read and modify school courses all in one place, safely through the implementation of basic user authentication. This was a great learning experience. I first built REST API endpoints with Express.js. I also worked with the React Context API for the first time. Private routes, basic user-auth. Cookies in the browser.
