@@ -5,7 +5,6 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon ./app.js",
-    "build": "nodemon ./app.js build",
     "seed": "cross-env DB_ENABLE_LOGGING=true node './seed'"
   },
   "keywords": [],
