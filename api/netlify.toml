@@ -1,0 +1,5 @@
+[build]
+  routes = "routes.js"
+
+[dev]
+  publish = "dist"
